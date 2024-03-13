@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CorpseLib\DiscordCorpse\DiscordCorpse.csproj" />
+    <ProjectReference Include="..\..\StreamGlass\StreamGlass.Core\StreamGlass.Core.csproj" />
+  </ItemGroup>
+
+</Project>
