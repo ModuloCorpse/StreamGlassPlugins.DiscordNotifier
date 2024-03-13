@@ -56,7 +56,6 @@ namespace DiscordNotifierPlugin
         {
             Dictionary<string, DiscordMessage> messagesToPost = [];
             DiscordMessageBuilder builder = new(new StreamGlassContext());
-
             List<JsonObject> messages = m_MessageJson.GetList<JsonObject>("messages");
             foreach (JsonObject message in messages)
             {
@@ -64,7 +63,6 @@ namespace DiscordNotifierPlugin
                     message.TryGet("content", out JsonObject? content) && content != null)
                     messagesToPost[id] = builder.Build(content);
             }
-
 
             List<JsonObject> notifications = m_MessageJson.GetList<JsonObject>((isTest) ? "tests" : "notifications");
             foreach (JsonObject notification in notifications)
