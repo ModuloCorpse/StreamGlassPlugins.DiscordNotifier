@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordNotifierPlugin", "Di
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{141A1DDC-14D1-4790-8053-96A9082B6B10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib", "..\..\CorpseLib\CorpseLib\CorpseLib.csproj", "{74B87112-D84C-467A-A671-DBCD65D42200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib", "..\..\..\CorpseLib\CorpseLib\CorpseLib.csproj", "{74B87112-D84C-467A-A671-DBCD65D42200}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib.Wpf", "..\..\CorpseLib\CorpseLib.Wpf\CorpseLib.Wpf.csproj", "{A9682530-0F37-40C4-8424-237B3C17FE9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib.Wpf", "..\..\..\CorpseLib\CorpseLib.Wpf\CorpseLib.Wpf.csproj", "{A9682530-0F37-40C4-8424-237B3C17FE9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamGlass.Core", "..\..\StreamGlass\StreamGlass.Core\StreamGlass.Core.csproj", "{7139616E-8856-4102-8EDC-15ACECD200A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamGlass.Core", "..\..\..\StreamGlass\StreamGlass.Core\StreamGlass.Core.csproj", "{7139616E-8856-4102-8EDC-15ACECD200A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordCorpse", "..\..\CorpseLib\DiscordCorpse\DiscordCorpse.csproj", "{D2894F77-6E50-4EA5-B6DD-0D780B5BED74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordCorpse", "..\..\..\CorpseLib\DiscordCorpse\DiscordCorpse.csproj", "{D2894F77-6E50-4EA5-B6DD-0D780B5BED74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib.Web", "..\..\CorpseLib\CorpseLib.Web\CorpseLib.Web.csproj", "{054E0D60-C7F3-46EF-BEE5-75F0B0C790DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorpseLib.Web", "..\..\..\CorpseLib\CorpseLib.Web\CorpseLib.Web.csproj", "{054E0D60-C7F3-46EF-BEE5-75F0B0C790DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

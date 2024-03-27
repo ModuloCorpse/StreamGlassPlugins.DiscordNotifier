@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CorpseLib\DiscordCorpse\DiscordCorpse.csproj" />
-    <ProjectReference Include="..\..\StreamGlass\StreamGlass.Core\StreamGlass.Core.csproj" />
+    <ProjectReference Include="..\..\..\CorpseLib\DiscordCorpse\DiscordCorpse.csproj" />
+    <ProjectReference Include="..\..\..\StreamGlass\StreamGlass.Core\StreamGlass.Core.csproj" />
   </ItemGroup>
 
 </Project>
