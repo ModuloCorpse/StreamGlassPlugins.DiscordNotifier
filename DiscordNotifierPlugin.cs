@@ -1,13 +1,11 @@
 ﻿using CorpseLib.Ini;
 using CorpseLib.Json;
-using CorpseLib.Web.API;
 using DiscordCorpse;
 using StreamGlass.Core.Plugin;
-using StreamGlass.Core.Settings;
 
 namespace DiscordNotifierPlugin
 {
-    public class DiscordNotifierPlugin : APlugin
+    public class DiscordNotifierPlugin : APlugin, ITestablePlugin
     {
         private readonly DiscordNotifierCore m_Core = new();
 
@@ -19,9 +17,7 @@ namespace DiscordNotifierPlugin
 
         protected override PluginInfo GeneratePluginInfo() => new("1.0.0-beta", "ModuloCorpse<https://www.twitch.tv/chaporon_>");
 
-        protected override void InitTranslation() { }
-
-        protected override void InitSettings()
+        protected override void OnLoad()
         {
             IniSection settings = m_Settings.GetOrAdd("settings");
             settings.Add("delay_since_message", "0");
@@ -30,20 +26,10 @@ namespace DiscordNotifierPlugin
             m_Core.SetSettings(settings, JsonParser.LoadFromFile(GetFilePath("message.json")));
         }
 
-        protected override void InitPlugin() => m_Core.Connect();
+        protected override void OnInit() => m_Core.Connect();
 
-        protected override void InitCommands() { }
+        protected override void OnUnload() => m_Core.Disconnect();
 
-        protected override void InitCanals() { }
-
-        protected override AEndpoint[] GetEndpoints() => [];
-
-        protected override void Unregister() => m_Core.Disconnect();
-
-        protected override void Update(long deltaTime) { }
-
-        protected override TabItemContent[] GetSettings() => [];
-
-        protected override void TestPlugin() => m_Core.Test();
+        public void Test() => m_Core.Test();
     }
 }

@@ -31,8 +31,7 @@ namespace DiscordNotifierPlugin
                 string discordToken = m_Settings.Get("token");
                 if (!string.IsNullOrEmpty(discordToken))
                 {
-                    m_DiscordClient = DiscordClient.NewConnection(discordToken, this);
-                    m_DiscordClient.SetMonitor(new DebugLogMonitor(DiscordClientProtocol.DISCORD_GATEWAY));
+                    m_DiscordClient = DiscordClient.NewConnection(discordToken, this, new DebugLogMonitor(DiscordClientProtocol.DISCORD_GATEWAY));
                     m_IsConnected = true;
                 }
             }
