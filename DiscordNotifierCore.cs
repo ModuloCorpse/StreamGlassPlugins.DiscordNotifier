@@ -1,7 +1,6 @@
 ﻿using CorpseLib.Ini;
 using CorpseLib.Json;
 using CorpseLib.Network;
-using CorpseLib.Placeholder;
 using DiscordCorpse;
 using StreamGlass.Core;
 
