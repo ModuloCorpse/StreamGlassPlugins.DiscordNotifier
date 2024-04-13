@@ -1,33 +1,26 @@
-﻿using CorpseLib.Ini;
-using CorpseLib.Json;
-using CorpseLib.Network;
+﻿using CorpseLib.Network;
 using DiscordCorpse;
 using StreamGlass.Core;
 
 namespace DiscordNotifierPlugin
 {
-    public class DiscordNotifierCore : IDiscordHandler
+    public class Core : IDiscordHandler
     {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         private DiscordClient m_DiscordClient = null;
-        private IniSection m_Settings = null;
-        private JsonObject m_MessageJson = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        private Settings m_Settings = new();
         private DateTime m_LastStreamStart = DateTime.MinValue;
         private DateTime m_LastMessagePosted = DateTime.MinValue;
         private bool m_IsConnected = false;
 
-        internal void SetSettings(IniSection settings, JsonObject messageSerializer)
-        {
-            m_Settings = settings;
-            m_MessageJson = messageSerializer;
-        }
+        internal void SetSettings(Settings settings) => m_Settings = settings;
 
         public void Connect()
         {
             if (!m_IsConnected)
             {
-                string discordToken = m_Settings.Get("token");
+                string discordToken = m_Settings.Token;
                 if (!string.IsNullOrEmpty(discordToken))
                 {
                     m_DiscordClient = DiscordClient.NewConnection(discordToken, this, new DebugLogMonitor(DiscordClientProtocol.DISCORD_GATEWAY));
@@ -53,29 +46,20 @@ namespace DiscordNotifierPlugin
         private void PostMessages(bool isTest)
         {
             Dictionary<string, DiscordMessage> messagesToPost = [];
-            DiscordMessageBuilder builder = new(new StreamGlassContext());
-            List<JsonObject> messages = m_MessageJson.GetList<JsonObject>("messages");
-            foreach (JsonObject message in messages)
-            {
-                if (message.TryGet("id", out string? id) && id != null &&
-                    message.TryGet("content", out JsonObject? content) && content != null)
-                    messagesToPost[id] = builder.Build(content);
-            }
+            MessageBuilder builder = new(new StreamGlassContext());
+            foreach (MessageSetting message in m_Settings.Messages)
+                messagesToPost[message.ID] = builder.Build(message);
 
-            List<JsonObject> notifications = m_MessageJson.GetList<JsonObject>((isTest) ? "tests" : "notifications");
-            foreach (JsonObject notification in notifications)
+            IEnumerable<NotificationSetting> notifications = (isTest) ? m_Settings.TestNotifications : m_Settings.Notifications;
+            foreach (NotificationSetting notification in notifications)
             {
-                List<string> channels = notification.GetList<string>("channels");
-                if (channels.Count > 0 && notification.TryGet("content", out string? content) && content != null)
+                if (notification.Channels.Count() > 0)
                 {
-                    if (messagesToPost.TryGetValue(content, out DiscordMessage? discordMessage))
+                    if (messagesToPost.TryGetValue(notification.Content, out DiscordMessage? discordMessage))
                     {
-                        bool crossPost = false;
-                        if (notification.TryGet("crosspost", out bool? crosspost) && crosspost == true)
-                            crossPost = true;
-                        foreach (string channel in channels)
+                        foreach (string channel in notification.Channels)
                         {
-                            if (crossPost)
+                            if (notification.Crosspost)
                                 m_DiscordClient.CrossPostMessage(channel, discordMessage);
                             else
                                 m_DiscordClient.SendMessage(channel, discordMessage);
@@ -87,10 +71,8 @@ namespace DiscordNotifierPlugin
 
         private void OnStreamStart()
         {
-            if (!int.TryParse(m_Settings.Get("delay_since_start"), out int delaySinceStart))
-                delaySinceStart = 0;
-            if (!int.TryParse(m_Settings.Get("delay_since_message"), out int delaySinceMessage))
-                delaySinceMessage = 0;
+            int delaySinceStart = m_Settings.DelaySinceStart;
+            int delaySinceMessage = m_Settings.DelaySinceMessage;
             DateTime now = DateTime.Now;
             if ((now - m_LastStreamStart).TotalSeconds >= delaySinceStart &&
                 (now - m_LastMessagePosted).TotalSeconds >= delaySinceMessage)

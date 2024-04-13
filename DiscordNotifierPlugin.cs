@@ -1,15 +1,16 @@
-﻿using CorpseLib.Ini;
-using CorpseLib.Json;
+﻿using CorpseLib.Json;
 using DiscordCorpse;
+using DiscordNotifierPlugin.EmbedSettings;
+using DiscordNotifierPlugin.MessageSettings;
 using StreamGlass.Core.Plugin;
 
 namespace DiscordNotifierPlugin
 {
     public class DiscordNotifierPlugin : APlugin, ITestablePlugin
     {
-        private readonly DiscordNotifierCore m_Core = new();
+        private readonly Core m_Core = new();
 
-        public DiscordNotifierPlugin() : base("DiscordNotifier", "discord_notifier_settings.ini")
+        public DiscordNotifierPlugin() : base("DiscordNotifier")
         {
             DiscordClientProtocol.StartLogging();
             DiscordAPI.StartLogging();
@@ -19,11 +20,17 @@ namespace DiscordNotifierPlugin
 
         protected override void OnLoad()
         {
-            IniSection settings = m_Settings.GetOrAdd("settings");
-            settings.Add("delay_since_message", "0");
-            settings.Add("delay_since_start", "0");
-            settings.Add("token", string.Empty);
-            m_Core.SetSettings(settings, JsonParser.LoadFromFile(GetFilePath("message.json")));
+            JsonHelper.RegisterSerializer(new MessagePartSettingJsonSerializer());
+            JsonHelper.RegisterSerializer(new EmbedAuthorSetting.JsonSerializer());
+            JsonHelper.RegisterSerializer(new EmbedFieldSetting.JsonSerializer());
+            JsonHelper.RegisterSerializer(new EmbedSetting.JsonSerializer());
+            JsonHelper.RegisterSerializer(new NotificationSetting.JsonSerializer());
+            JsonHelper.RegisterSerializer(new MessageSetting.JsonSerializer());
+            JsonHelper.RegisterSerializer(new Settings.JsonSerializer());
+
+            Settings? settings = JsonParser.LoadFromFile<Settings>(GetFilePath("settings.json"));
+            if (settings != null)
+                m_Core.SetSettings(settings);
         }
 
         protected override void OnInit() => m_Core.Connect();
