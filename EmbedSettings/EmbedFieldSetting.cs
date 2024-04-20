@@ -1,5 +1,5 @@
 ﻿using CorpseLib;
-using CorpseLib.Json;
+using CorpseLib.DataNotation;
 using CorpseLib.Placeholder;
 using DiscordCorpse;
 
@@ -7,9 +7,9 @@ namespace DiscordNotifierPlugin.EmbedSettings
 {
     public class EmbedFieldSetting(string name, string value, bool? inline)
     {
-        public class JsonSerializer : AJsonSerializer<EmbedFieldSetting>
+        public class DataSerializer : ADataSerializer<EmbedFieldSetting>
         {
-            protected override OperationResult<EmbedFieldSetting> Deserialize(JsonObject reader)
+            protected override OperationResult<EmbedFieldSetting> Deserialize(DataObject reader)
             {
                 if (reader.TryGet("name", out string? name) && name != null &&
                     reader.TryGet("value", out string? value) && value != null)
@@ -20,7 +20,7 @@ namespace DiscordNotifierPlugin.EmbedSettings
                 return new("Deserialization error", "Cannot deserialize embed field setting");
             }
 
-            protected override void Serialize(EmbedFieldSetting obj, JsonObject writer)
+            protected override void Serialize(EmbedFieldSetting obj, DataObject writer)
             {
                 writer["name"] = obj.m_Name;
                 writer["value"] = obj.m_Value;

@@ -1,16 +1,16 @@
-﻿using CorpseLib.Json;
-using CorpseLib;
+﻿using CorpseLib;
 using CorpseLib.Network;
 using CorpseLib.Placeholder;
 using DiscordCorpse;
+using CorpseLib.DataNotation;
 
 namespace DiscordNotifierPlugin.EmbedSettings
 {
     public class EmbedSetting
     {
-        public class JsonSerializer : AJsonSerializer<EmbedSetting>
+        public class DataSerializer : ADataSerializer<EmbedSetting>
         {
-            protected override OperationResult<EmbedSetting> Deserialize(JsonObject reader)
+            protected override OperationResult<EmbedSetting> Deserialize(DataObject reader)
             {
                 reader.TryGet("color", out int? color);
                 reader.TryGet("title", out string? title);
@@ -32,7 +32,7 @@ namespace DiscordNotifierPlugin.EmbedSettings
                 return new(setting);
             }
 
-            protected override void Serialize(EmbedSetting obj, JsonObject writer)
+            protected override void Serialize(EmbedSetting obj, DataObject writer)
             {
                 if (obj.m_Color != null)
                     writer["color"] = obj.m_Color;

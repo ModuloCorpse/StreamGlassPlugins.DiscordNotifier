@@ -1,4 +1,5 @@
 ﻿using CorpseLib;
+using CorpseLib.DataNotation;
 using CorpseLib.Json;
 using CorpseLib.Placeholder;
 using DiscordCorpse.MessagePart;
@@ -11,14 +12,14 @@ namespace DiscordNotifierPlugin.MessageSettings
 
         public string Type => m_Type;
 
-        internal abstract bool ReadObject(JsonObject obj);
-        internal abstract void FillObject(JsonObject obj);
+        internal abstract bool ReadObject(DataObject obj);
+        internal abstract void FillObject(DataObject obj);
         internal abstract bool FillText(DiscordText text, Cache cache, IContext[] contexts);
     }
 
-    public class MessagePartSettingJsonSerializer : AJsonSerializer<MessagePartSetting>
+    public class MessagePartSettingDataSerializer : ADataSerializer<MessagePartSetting>
     {
-        protected override OperationResult<MessagePartSetting> Deserialize(JsonObject reader)
+        protected override OperationResult<MessagePartSetting> Deserialize(DataObject reader)
         {
             if (reader.TryGet("type", out string? type) && type != null)
             {
@@ -37,7 +38,7 @@ namespace DiscordNotifierPlugin.MessageSettings
             return new("Deserialization error", "Cannot deserialize message part setting");
         }
 
-        protected override void Serialize(MessagePartSetting obj, JsonObject writer)
+        protected override void Serialize(MessagePartSetting obj, DataObject writer)
         {
             writer["type"] = obj.Type;
             obj.FillObject(writer);

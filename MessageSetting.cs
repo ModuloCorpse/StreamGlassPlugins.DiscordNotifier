@@ -1,5 +1,5 @@
 ﻿using CorpseLib;
-using CorpseLib.Json;
+using CorpseLib.DataNotation;
 using DiscordNotifierPlugin.EmbedSettings;
 using DiscordNotifierPlugin.MessageSettings;
 
@@ -7,12 +7,12 @@ namespace DiscordNotifierPlugin
 {
     public class MessageSetting(string id)
     {
-        public class JsonSerializer : AJsonSerializer<MessageSetting>
+        public class DataSerializer : ADataSerializer<MessageSetting>
         {
-            protected override OperationResult<MessageSetting> Deserialize(JsonObject reader)
+            protected override OperationResult<MessageSetting> Deserialize(DataObject reader)
             {
                 if (reader.TryGet("id", out string? id) && id != null &&
-                    reader.TryGet("content", out JsonObject? content) && content != null)
+                    reader.TryGet("content", out DataObject? content) && content != null)
                 {
                     MessageSetting setting = new(id);
                     setting.m_Parts.AddRange(content.GetList<MessagePartSetting>("parts"));
@@ -22,10 +22,10 @@ namespace DiscordNotifierPlugin
                 return new("Deserialization error", "Cannot deserialize message setting");
             }
 
-            protected override void Serialize(MessageSetting obj, JsonObject writer)
+            protected override void Serialize(MessageSetting obj, DataObject writer)
             {
                 writer["id"] = obj.m_ID;
-                writer["content"] = new JsonObject()
+                writer["content"] = new DataObject()
                 {
                     { "parts", obj.m_Parts },
                     { "embeds", obj.m_Embeds }

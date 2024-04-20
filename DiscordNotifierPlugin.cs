@@ -1,4 +1,5 @@
-﻿using CorpseLib.Json;
+﻿using CorpseLib.DataNotation;
+using CorpseLib.Json;
 using DiscordCorpse;
 using DiscordNotifierPlugin.EmbedSettings;
 using DiscordNotifierPlugin.MessageSettings;
@@ -20,13 +21,13 @@ namespace DiscordNotifierPlugin
 
         protected override void OnLoad()
         {
-            JsonHelper.RegisterSerializer(new MessagePartSettingJsonSerializer());
-            JsonHelper.RegisterSerializer(new EmbedAuthorSetting.JsonSerializer());
-            JsonHelper.RegisterSerializer(new EmbedFieldSetting.JsonSerializer());
-            JsonHelper.RegisterSerializer(new EmbedSetting.JsonSerializer());
-            JsonHelper.RegisterSerializer(new NotificationSetting.JsonSerializer());
-            JsonHelper.RegisterSerializer(new MessageSetting.JsonSerializer());
-            JsonHelper.RegisterSerializer(new Settings.JsonSerializer());
+            DataHelper.RegisterSerializer(new MessagePartSettingDataSerializer());
+            DataHelper.RegisterSerializer(new EmbedAuthorSetting.DataSerializer());
+            DataHelper.RegisterSerializer(new EmbedFieldSetting.DataSerializer());
+            DataHelper.RegisterSerializer(new EmbedSetting.DataSerializer());
+            DataHelper.RegisterSerializer(new NotificationSetting.DataSerializer());
+            DataHelper.RegisterSerializer(new MessageSetting.DataSerializer());
+            DataHelper.RegisterSerializer(new Settings.DataSerializer());
 
             Settings? settings = JsonParser.LoadFromFile<Settings>(GetFilePath("settings.json"));
             if (settings != null)

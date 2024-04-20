@@ -1,16 +1,16 @@
-﻿using CorpseLib.Json;
-using CorpseLib;
+﻿using CorpseLib;
 using CorpseLib.Network;
 using CorpseLib.Placeholder;
 using DiscordCorpse;
+using CorpseLib.DataNotation;
 
 namespace DiscordNotifierPlugin.EmbedSettings
 {
     public class EmbedAuthorSetting(string name, string? url, string? icon)
     {
-        public class JsonSerializer : AJsonSerializer<EmbedAuthorSetting>
+        public class DataSerializer : ADataSerializer<EmbedAuthorSetting>
         {
-            protected override OperationResult<EmbedAuthorSetting> Deserialize(JsonObject reader)
+            protected override OperationResult<EmbedAuthorSetting> Deserialize(DataObject reader)
             {
                 if (reader.TryGet("name", out string? name) && name != null)
                 {
@@ -21,7 +21,7 @@ namespace DiscordNotifierPlugin.EmbedSettings
                 return new("Deserialization error", "Cannot deserialize embed author setting");
             }
 
-            protected override void Serialize(EmbedAuthorSetting obj, JsonObject writer)
+            protected override void Serialize(EmbedAuthorSetting obj, DataObject writer)
             {
                 writer["name"] = obj.m_Name;
                 if (obj.m_URL != null)

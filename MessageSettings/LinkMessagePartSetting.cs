@@ -1,4 +1,4 @@
-﻿using CorpseLib.Json;
+﻿using CorpseLib.DataNotation;
 using CorpseLib.Network;
 using CorpseLib.Placeholder;
 using DiscordCorpse.MessagePart;
@@ -12,7 +12,7 @@ namespace DiscordNotifierPlugin.MessageSettings
         private string? m_HideText = null;
         private bool m_DisableEmbed = false;
 
-        internal override bool ReadObject(JsonObject obj)
+        internal override bool ReadObject(DataObject obj)
         {
             if (obj.TryGet("text", out string? link) && link != null)
             {
@@ -26,7 +26,7 @@ namespace DiscordNotifierPlugin.MessageSettings
             return false;
         }
 
-        internal override void FillObject(JsonObject obj)
+        internal override void FillObject(DataObject obj)
         {
             obj["text"] = m_Link;
             if (m_HideText != null)

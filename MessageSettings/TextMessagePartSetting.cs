@@ -1,4 +1,4 @@
-﻿using CorpseLib.Json;
+﻿using CorpseLib.DataNotation;
 using CorpseLib.Placeholder;
 using DiscordCorpse.MessagePart;
 using DiscordCorpse.MessagePart.Text;
@@ -15,7 +15,7 @@ namespace DiscordNotifierPlugin.MessageSettings
         private bool m_Underline = false;
         private bool m_Spoiler = false;
 
-        internal override bool ReadObject(JsonObject obj)
+        internal override bool ReadObject(DataObject obj)
         {
             if (obj.TryGet("text", out string? text) && text != null)
             {
@@ -37,7 +37,7 @@ namespace DiscordNotifierPlugin.MessageSettings
             return false;
         }
 
-        internal override void FillObject(JsonObject obj)
+        internal override void FillObject(DataObject obj)
         {
             obj["text"] = m_Text;
             obj["codeblock"] = m_Codeblock;

@@ -1,14 +1,13 @@
 ﻿using CorpseLib;
-using CorpseLib.Json;
-using System.Runtime;
+using CorpseLib.DataNotation;
 
 namespace DiscordNotifierPlugin
 {
     public class Settings
     {
-        public class JsonSerializer : AJsonSerializer<Settings>
+        public class DataSerializer : ADataSerializer<Settings>
         {
-            protected override OperationResult<Settings> Deserialize(JsonObject reader)
+            protected override OperationResult<Settings> Deserialize(DataObject reader)
             {
                 Settings settings = new()
                 {
@@ -22,7 +21,7 @@ namespace DiscordNotifierPlugin
                 return new(settings);
             }
 
-            protected override void Serialize(Settings obj, JsonObject writer)
+            protected override void Serialize(Settings obj, DataObject writer)
             {
                 writer["token"] = obj.m_Token;
                 writer["delay_since_start"] = obj.m_DelaySinceStart;
